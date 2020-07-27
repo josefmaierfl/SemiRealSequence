@@ -278,11 +278,11 @@ After extracting downloaded SfM data, move all numbered folders (i.e. `0000` to 
 ## Reading Generated Sequence, GTM, and Annotation Data <a name="read-data"></a>
 
 We provide a ***C++ interface*** for reading generated data:
-```
-./generateVirtualSequence/source/examples/generateVirtualSequencecmd/loadMatches.h
-./generateVirtualSequence/source/examples/generateVirtualSequencecmd/readPointClouds.h
-./generateVirtualSequence/source/examples/generateVirtualSequencecmd/readGTM.h
-```
+
+[./generateVirtualSequence/source/examples/generateVirtualSequencecmd/loadMatches.h]
+[./generateVirtualSequence/source/examples/generateVirtualSequencecmd/readPointClouds.h]
+[./generateVirtualSequence/source/examples/generateVirtualSequencecmd/readGTM.h]
+
 An example on how to use the interface can be found in `./generateVirtualSequence/source/examples/generateVirtualSequencecmd` and can be executed using generated data by calling `./run_docker_base.sh live EXE load --sequPath /app/data/your_sequence_folder` or `./generateVirtualSequence/build/loadData --sequPath output_path/your_sequence_folder`.
 For more details and additional options call `./run_docker_base.sh live EXE load -h` or `./generateVirtualSequence/build/loadData -h`.
 
