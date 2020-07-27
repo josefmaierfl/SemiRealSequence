@@ -275,7 +275,7 @@ mkdir SfM
 After extracting downloaded MegaDepth_v1 data, move all numbered folders (i.e. `0000` to `5018`) into folder `your_image_directory/MegaDepth/MegaDepth_v1`.
 After extracting downloaded SfM data, move all numbered folders (i.e. `0000` to `5018`) into folder `your_image_directory/MegaDepth/SfM`.
 
-## Reading Generated Sequence, GTM, and Annotation Data
+## Reading Generated Sequence, GTM, and Annotation Data <a name="read-data"></a>
 
 We provide a ***C++ interface*** for reading generated data:
 ```
