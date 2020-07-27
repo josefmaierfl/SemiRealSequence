@@ -84,7 +84,7 @@ SemiRealSequence supports to specify different scene and camera pose properties:
     * Amount of Gaussian intensity noise to add to matching image patches
     * Portion of gross error True Negative (TN) matches
     * Repeated pattern portions separately for stereo pairs and from frame to frame along the trajectory
-    * Keypoint and descriptor type (All available within OpenCV in addition to BOLD and RIFF)
+    * Keypoint and descriptor type (All available within [OpenCV](https://docs.opencv.org/4.2.0/d5/d51/group__features2d__main.html) (including [contrib](https://docs.opencv.org/4.2.0/d7/d7a/group__xfeatures2d__experiment.html)) in addition to [BOLD](https://github.com/vbalnt/bold) and [RIFF](http://press.liacs.nl/publications/RIFF%20-%20Retina-inspired%20Invariant%20Fast%20Feature%20Descriptor.pdf))
 
 Most parameters can be initialized randomly.
 Details can be found in generated [configuration files](#config-file).
