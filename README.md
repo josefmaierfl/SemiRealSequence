@@ -25,7 +25,7 @@
 - [Random Testing and Data Generation](#random-test)
 - [Publication](#publication)
 
-## Introduction
+## Introduction <a name="introduction"></a>
 
 Ground truth (GT) data is essential for testing and training computer vision applications.
 For this purpose, many real-world and synthetic datasets emerged in recent years.
@@ -44,7 +44,7 @@ For easy data interfacing, we provide a [C++ and Python interface](#read-data).
 
 The software is tested on Ubuntu 18.04 but we provide a Docker-file for operating system independent usage.
 
-## Different Scene Properties
+## Different Scene Properties <a name="scene-properties"></a>
 
 SemiRealSequence supports to specify different scene and camera pose properties:
 * Virtual image size
@@ -89,7 +89,7 @@ SemiRealSequence supports to specify different scene and camera pose properties:
 Most parameters can be initialized randomly.
 Details can be found in generated [configuration files](#config-file).
 
-## Installation
+## Installation <a name="installation"></a>
 
 We provide multiple possibilities to use this software:
 * Stand-alone executables for
@@ -99,15 +99,15 @@ We provide multiple possibilities to use this software:
 * Docker for afore mentioned executables
 * A [library](#interface-lib) for generating semi-real-world stereo sequences that can be integrated into your own application
 
-### Dependencies
+### Dependencies <a name="dependencies"></a>
 
-#### Docker
+#### Docker <a name="docker"></a>
 
 For generating semi-real-world sequences using a stand-alone executable, [Docker](https://docs.docker.com/get-docker/) can be used.
 After installing Docker, the corresponding Docker image can be built executing `./build_docker_base.sh` in the main directory of this repository.
 On Windows, the image can be built by executing `docker build -t SemiRealSequence:1.0 .` in the main directory of this repository using Powershell.
 
-#### System-wide Installation on Linux Systems
+#### System-wide Installation on Linux Systems <a name="system-dependencies"></a>
 
 SemiRealSequence depends on the following libraries:
 * Python 3.6.10
@@ -175,12 +175,12 @@ python -m pip install --upgrade pip setuptools wheel
 python -m pip install -r ./py_test_scripts/requirements.txt
 ```
 
-### Data Generation using a Stand-Alone Executable
+### Data Generation using a Stand-Alone Executable <a name="executable"></a>
 
 If not using Docker, SemiRealSequence can be built by executing `./build_SemiRealSequence.sh`.
 The executables can be found in directory `generateVirtualSequence/build`
 
-### Executable for Annotating Ground Truth Matches (GTM) and Datasets
+### Executable for Annotating Ground Truth Matches (GTM) and Datasets <a name="annotation"></a>
 
 If you do NOT want to generate semi-real-world sequences but use the integrated annotation framework to generate GTM and annotation data, the follwing steps should be performed:
 ```bash
@@ -192,7 +192,7 @@ make -j "$(nproc)"
 ```
 For annotating data use executable `virtualSequenceLib-GTM-interface` within directory `generateVirtualSequence/build`.
 
-### Library
+### Library <a name="library"></a>
 
 To use SemiRealSequence within your own application, it can be built and installed performing the following steps:
 ```bash
@@ -220,7 +220,7 @@ See [Image Folder Structure](#image-folder) for details.
 To start generating a sequence execute `./run_docker_base.sh live IMGPATH path_to_images --conf_file /app/config/file --img_pref /` or `./generateVirtualSequence/build/virtualSequenceLib-CMD-interface --conf_file path/file --img_path path_to_images --img_pref / --store_path output_path`.
 For Docker, the generated 3D and matching data can be found in folder `data` of the repository.
 
-## Image Folder Structure
+## Image Folder Structure <a name="image-folder"></a>
 
 For generating feature matches, images and/or datasets ([KITTI](http://www.cvlibs.net/datasets/kitti/eval_stereo_flow.php) and/or [MegaDepth](https://research.cs.cornell.edu/megadepth/)) must be present in one folder.
 Images of any kind can be used (no need of corresponding GT data).
@@ -232,11 +232,11 @@ For details call `./run_docker_base.sh live -h` or `./generateVirtualSequence/bu
 
 If GTM from datasets KITTI (flow and disparity of years 2012 and 2015) and/or MegaDepth should be used, the datasets must be manually downloaded and copied into the image directory.
 
-### Oxford
+### Oxford <a name="oxford"></a>
 
 The [Oxford dataset](http://www.robots.ox.ac.uk/~vgg/research/affine/) is automatically downloaded and extracted as soon as parameter `oxfordGTMportion: >0` is specified in the configuration file.
 
-### KITTI
+### KITTI <a name="kitti"></a>
 
 Datasets from both years, [2012](http://www.cvlibs.net/download.php?file=data_stereo_flow.zip) and [2015](http://www.cvlibs.net/download.php?file=data_scene_flow.zip) have to be downloaded.
 Create a folder `KITTI` and 2 sub-folders named `2012` and `2015` in your image-directory:
@@ -259,7 +259,7 @@ cd data_scene_flow/training
 cp -r * /your_image_directory/KITTI/2015
 ```
 
-### MegaDepth
+### MegaDepth <a name="megadepth"></a>
 
 Download the [MegaDepth v1 Dataset](https://research.cs.cornell.edu/megadepth/dataset/Megadepth_v1/MegaDepth_v1.tar.gz) (199GB) and [MegaDepth v1 SfM models](https://research.cs.cornell.edu/megadepth/dataset/MegaDepth_SfM/MegaDepth_SfM_v1.tar.xz) (667GB).
 Be aware that downloading might take days depending on your internet connection.
@@ -290,7 +290,7 @@ For more details and additional options call `./run_docker_base.sh live EXE load
 
 A ***Python interface*** and example on how to generate and convert data for training and testing [NG-RANSAC](https://github.com/vislearn/ngransac) can be found [here](https://github.com/josefmaierfl/autocalib_test_package/tree/conversion).
 
-## Interfacing the Library
+## Interfacing the Library <a name="interface-lib"></a>
 
 If you installed SemiRealSequence on your system as described [here](#library), you can integrate it into your own application.
 
@@ -301,7 +301,7 @@ Generating semi-real-world sequences is split into 3 parts:
 
 Examples on how to interface to the library can be found in [generateVirtualSequence/source/CMD_Interface/main.cpp](./generateVirtualSequence/source/CMD_Interface/main.cpp) and [generateVirtualSequence/source/tests/genvirtsequlib-test/main.cpp](./generateVirtualSequence/source/tests/genvirtsequlib-test/main.cpp).
 
-### Calculation of Stereo Poses
+### Calculation of Stereo Poses <a name="interface-stereo"></a>
 
 When creating an object of class `GenStereoPars` (within [generateVirtualSequence/source/generateVirtualSequenceLib/include/getStereoCameraExtr.h](./generateVirtualSequence/source/generateVirtualSequenceLib/include/getStereoCameraExtr.h)), the following vectors must be provided (size of each vector corresponds to desired number of different stereo configurations):
 * Ranges for the x-components (`std::vector<std::vector<double>>(n, std::vector<double>(2))`) of relative stereo translation vectors
@@ -315,7 +315,7 @@ When creating an object of class `GenStereoPars` (within [generateVirtualSequenc
 
 Afterwards member function `optimizeRtf()` can be called to estimate stereo poses followed by reading calculated values (`getEulerAngles, getCamPars`).
 
-### Generation of Synthetic Static and Dynamic Scene Structure
+### Generation of Synthetic Static and Dynamic Scene Structure <a name="interface-3d"></a>
 
 If only synthetic static and dynamic scene structure in addition to camera poses (no feature matches) should be generated, create an object of class `genStereoSequ` (within [generateVirtualSequence/source/generateVirtualSequenceLib/include/generateSequence.h](./generateVirtualSequence/source/generateVirtualSequenceLib/include/generateSequence.h)) and provide:
 * struct `StereoSequParameters` (detailed descriptions of every member can be found in `./generateVirtualSequence/source/generateVirtualSequenceLib/include/generateSequence.h`)
@@ -325,7 +325,7 @@ Afterwards member function `startCalc()` can be called to generate 3D data.
 
 Otherwise, see [Generation of Feature Matches](#interface-matches).
 
-### Generation of Feature Matches
+### Generation of Feature Matches <a name="interface-matches"></a>
 
 To generate synthetic static and dynamic scene structure in addition to camera poses and feature matches based on real images, create an object of class `genMatchSequ` (within [generateVirtualSequence/source/generateVirtualSequenceLib/include/generateMatches.h](./generateVirtualSequence/source/generateVirtualSequenceLib/include/generateMatches.h)) and provide:
 * struct `StereoSequParameters` (detailed descriptions of every member can be found in `./generateVirtualSequence/source/generateVirtualSequenceLib/include/generateSequence.h`)
@@ -350,7 +350,7 @@ Calculated GTM and optical flow are stored in corresponding dataset folders with
 
 ToDo: Link to download optical flow data and GTM with ORB features
 
-## Annotating Datasets
+## Annotating Datasets <a name="annotation-start"></a>
 
 For annotating datasets and GTM, SemiRealSequence must be compiled as described [here](#annotation).
 To start annotating e.g. the MegaDepth dataset, call `./run_docker_base.sh live EXE gtm IMGPATH path_to_images --mega --del_pool` or `./generateVirtualSequence/build/virtualSequenceLib-GTM-interface --img_path path_to_images --mega --del_pool`.
@@ -371,7 +371,7 @@ path_to_images/MegaDepth/MegaDepth_v1/[0000 to 5018]/[dense0, dense1, ...]/GTM/[
 Results can be loaded using the provided [C++ interface](#read-data) or by using [PyYAML](https://pyyaml.org/) (an example on how to load OpenCV matrices (stored in YAML format) in Python can be found [here](https://github.com/josefmaierfl/autocalib_test_package/tree/conversion)).
 To process only automatic and manual annotation data, loaded annotation data vectors should be filtered using only elements marked with character `M` or `A` in vector/list `autoManualAnnot`.
 
-## Bulk Configuration File and Data Generation
+## Bulk Configuration File and Data Generation <a name="multiple-config-files"></a>
 
 We used SemiRealSequence to extensively test a [relative stereo pose estimation pipeline](https://github.com/josefmaierfl/matchinglib_poselib).
 Thus, we developed a Python framework to read multiple [configuration files](#config-file) holding different parameter settings and performing parameter sweeps on some other parameters (like inlier ratio, depth distributions, ...) leading to a large set of new configuration files that were used to generate semi-real-world stereo sequences with different properties.
@@ -387,14 +387,14 @@ Sweeping different parameters as already implemented in afore mentioned framewor
 If Docker is used to start SemiRealSequence, script `./run_docker_base.sh` provides functionality to shut the operating system down after all sequences were generated by setting the first argument to `shutdown` (usage: `./run_docker_base.sh shutdown [remaining options]`).
 Otherwise, use `./run_docker_base.sh live [remaining options]`.
 
-## Random Testing and Data Generation
+## Random Testing and Data Generation <a name="random-test"></a>
 
 For testing SemiRealSequence, we provide an executable which randomly generates 3D data and feature matches.
 To start testing the library, call `./run_docker_base.sh live EXE test IMGPATH path_to_images` or `./generateVirtualSequence/build/generateVirtualSequenceLib-test --img_path path_to_images --img_pref / --store_path output_path`.
 For more details and additional options call `./run_docker_base.sh live EXE test -h` or `./generateVirtualSequence/build/generateVirtualSequenceLib-test -h`.
 For Docker, the generated 3D and matching data can be found in folder `data` of the repository.
 
-## Citation
+## Citation <a name="publication"></a>
 
 Coming soon
 <!--
