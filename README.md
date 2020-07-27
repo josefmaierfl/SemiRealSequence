@@ -279,13 +279,13 @@ After extracting downloaded SfM data, move all numbered folders (i.e. `0000` to 
 
 We provide a ***C++ interface*** for reading generated data:
 
-[generateVirtualSequence/source/examples/generateVirtualSequencecmd/loadMatches.h](./generateVirtualSequence/source/examples/generateVirtualSequencecmd/loadMatches.h)
+* [generateVirtualSequence/source/examples/generateVirtualSequencecmd/loadMatches.h](./generateVirtualSequence/source/examples/generateVirtualSequencecmd/loadMatches.h)
 
-[generateVirtualSequence/source/examples/generateVirtualSequencecmd/readPointClouds.h](./generateVirtualSequence/source/examples/generateVirtualSequencecmd/readPointClouds.h)
+* [generateVirtualSequence/source/examples/generateVirtualSequencecmd/readPointClouds.h](./generateVirtualSequence/source/examples/generateVirtualSequencecmd/readPointClouds.h)
 
-[generateVirtualSequence/source/examples/generateVirtualSequencecmd/readGTM.h](./generateVirtualSequence/source/examples/generateVirtualSequencecmd/readGTM.h)
+* [generateVirtualSequence/source/examples/generateVirtualSequencecmd/readGTM.h](./generateVirtualSequence/source/examples/generateVirtualSequencecmd/readGTM.h)
 
-An example on how to use the interface can be found in `./generateVirtualSequence/source/examples/generateVirtualSequencecmd` and can be executed using generated data by calling `./run_docker_base.sh live EXE load --sequPath /app/data/your_sequence_folder` or `./generateVirtualSequence/build/loadData --sequPath output_path/your_sequence_folder`.
+An example on how to use the interface can be found in [generateVirtualSequence/source/examples/generateVirtualSequencecmd](./generateVirtualSequence/source/examples/generateVirtualSequencecmd) and can be executed using generated data by calling `./run_docker_base.sh live EXE load --sequPath /app/data/your_sequence_folder` or `./generateVirtualSequence/build/loadData --sequPath output_path/your_sequence_folder`.
 For more details and additional options call `./run_docker_base.sh live EXE load -h` or `./generateVirtualSequence/build/loadData -h`.
 
 A ***Python interface*** and example on how to generate and convert data for training and testing [NG-RANSAC](https://github.com/vislearn/ngransac) can be found [here](https://github.com/josefmaierfl/autocalib_test_package/tree/conversion).
