@@ -340,7 +340,7 @@ To load synthetic static and dynamic scene structure in addition to camera poses
 
 Afterwards member function `generateMatches()` can be called to generate feature matches.
 
-## Calculation of GTM and GT Optical Flow
+## Calculation of GTM and GT Optical Flow  <a name="calculate-gtm"></a>
 
 Typically, Ground Truth Matches (GTM) and GT optical flow for the MegaDepth dataset are calculated on-the-fly when generating sequences with SemiRealSequence and [configuration file](#config-file) parameters `oxfordGTMportion: >0`, `kittiGTMportion: >0`, and/or `megadepthGTMportion: >0`.
 To calculate them without generating a sequence, you can call `./run_docker_base.sh live EXE gtm IMGPATH path_to_images --kitti --oxford --mega --del_pool` or `./generateVirtualSequence/build/virtualSequenceLib-GTM-interface --img_path path_to_images --kitti --oxford --mega --del_pool`.
