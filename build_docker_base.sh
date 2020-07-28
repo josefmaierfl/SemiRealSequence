@@ -8,4 +8,4 @@ if [ $# -ne 0 ]; then
 fi
 export BUILD_ANNOTATION
 
-docker image build --build-arg BUILD_ANNOTATION -t SemiRealSequence:1.0 `pwd`
+docker image build --build-arg BUILD_ANNOTATION -t semi_real_sequence:1.0 `pwd`
