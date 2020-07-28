@@ -353,7 +353,7 @@ We provide a ***C++ interface*** for reading generated data:
 
 An example on how to use the interface can be found in [generateVirtualSequence/source/examples/generateVirtualSequencecmd](./generateVirtualSequence/source/examples/generateVirtualSequencecmd) and can be executed using generated data by calling `./run_docker_base.sh live EXE load --sequPath your_sequence_folder` or `./generateVirtualSequence/build/loadData --sequPath output_path/your_sequence_folder`.
 For more details and additional options call `./run_docker_base.sh live EXE load -h` or `./generateVirtualSequence/build/loadData -h`.
-When using Docker, all options specifying a file or path start with the first sub-folder of your main data, image, or configuration files directory (e.g. `--sequPath 129473625456`, `--gtm_file Oxford/bark/GTM`, `--file 129473625456/3490574839129/matchSingleFrameData_0.xml.gz`).
+When using Docker, all options specifying a file or path start with the first sub-folder of your main data, image, or configuration files directory (e.g. `--sequPath 13636473635092440529`, `--gtm_file Oxford/bark/GTM/ORB_GTd-ORB_img1-img2.yaml.gz`, `--file 13636473635092440529/4148949948977900531/matchSingleFrameData_0.yaml.gz`).
 
 For changing default Docker data, image, or configuration files directories (on your operating system side) see [here](#docker-path).
 
