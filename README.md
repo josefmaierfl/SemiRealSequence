@@ -243,7 +243,7 @@ By running Docker with option `IMGPATH path_to_images` (i.e. `./run_docker_base.
 By running Docker with option `CONFIGPATH path` (i.e. `./run_docker_base.sh live CONFIGPATH path --conf_file file`) you can specify your own path for storing and loading configuration files.
 `path` stands for the full path.
 
-By running Docker with option `DATAPATH your_path` (i.e. `./run_docker_base.sh live DATAPATH your_path --conf_file file`) you can specify your own image path.
+By running Docker with option `DATAPATH your_path` (i.e. `./run_docker_base.sh live DATAPATH your_path --conf_file file`) you can specify your own path for storing and loading generated sequences.
 `your_path` stands for the full path for storing and loading generated sequences.
 
 Options `IMGPATH`, `CONFIGPATH`, `DATAPATH`, and `EXE` must be placed before options with leading `--` and after `[live, shutdown]`.
