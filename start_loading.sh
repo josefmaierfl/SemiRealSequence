@@ -5,7 +5,7 @@ cd ${EXE_DIR}
 
 SEQU_FOLDER_PRE="/app/data/"
 IMG_FOLDER_PRE="/app/images/"
-OPTS=""
+OPTS=()
 
 SKIP_NEXT=0
 for (( i = 1; i <= "$#"; i++ )); do
@@ -22,7 +22,7 @@ for (( i = 1; i <= "$#"; i++ )); do
       echo "Directory ${SEQU_VAL} does not exist"
       exit 1
     fi
-    OPTS="${OPTS} --sequPath ${SEQU_VAL}"
+    OPTS+=("--sequPath" "${SEQU_VAL}")
     SKIP_NEXT=1
   elif [ "${!i}" == "--matchPath" ]; then
     i2="$((${i} + 1))"
@@ -35,7 +35,7 @@ for (( i = 1; i <= "$#"; i++ )); do
       echo "Directory ${SEQU_VAL} does not exist"
       exit 1
     fi
-    OPTS="${OPTS} --matchPath ${SEQU_VAL}"
+    OPTS+=("--matchPath" "${SEQU_VAL}")
     SKIP_NEXT=1
   elif [ "${!i}" == "--file" ]; then
     i2="$((${i} + 1))"
@@ -48,7 +48,7 @@ for (( i = 1; i <= "$#"; i++ )); do
       echo "File ${SEQU_VAL} does not exist"
       exit 1
     fi
-    OPTS="${OPTS} --file ${SEQU_VAL}"
+    OPTS+=("--file" "${SEQU_VAL}")
     SKIP_NEXT=1
   elif [ "${!i}" == "--fileRt" ]; then
     i2="$((${i} + 1))"
@@ -61,7 +61,7 @@ for (( i = 1; i <= "$#"; i++ )); do
       echo "File ${SEQU_VAL} does not exist"
       exit 1
     fi
-    OPTS="${OPTS} --fileRt ${SEQU_VAL}"
+    OPTS+=("--fileRt" "${SEQU_VAL}")
     SKIP_NEXT=1
   elif [ "${!i}" == "--gtm_file" ]; then
     i2="$((${i} + 1))"
@@ -74,11 +74,11 @@ for (( i = 1; i <= "$#"; i++ )); do
       echo "File ${SEQU_VAL} does not exist"
       exit 1
     fi
-    OPTS="${OPTS} --gtm_file ${SEQU_VAL}"
+    OPTS+=("--gtm_file" "${SEQU_VAL}")
     SKIP_NEXT=1
   else
-    OPTS="${OPTS} ${!i}"
+    OPTS+=("${!i}")
   fi
 done
 
-./loadData "${OPTS}"
+./loadData ${OPTS[@]}

@@ -3,10 +3,10 @@
 EXE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/generateVirtualSequence/build"
 cd ${EXE_DIR}
 
-IMG_PREF="--img_pref /"
+IMG_PREF=("--img_pref" "/")
 CONF_FILE_PRE="/app/config/"
 DATA_FOLDER="/app/data/"
-OPTS="--img_path /app/images --store_path /app/data"
+OPTS=("--img_path" "/app/images" "--store_path" "/app/data")
 
 IMG_PREF_FOUND=0
 SKIP_NEXT=0
@@ -15,7 +15,7 @@ for (( i = 1; i <= "$#"; i++ )); do
     SKIP_NEXT=0
   elif [ "${!i}" == "--img_pref" ]; then
     IMG_PREF_FOUND=1
-    OPTS="${OPTS} --img_pref"
+    OPTS+=("--img_pref")
   elif [ "${!i}" == "--conf_file" ]; then
     i2="$((${i} + 1))"
     if [ $# -lt "${i2}" ]; then
@@ -27,7 +27,7 @@ for (( i = 1; i <= "$#"; i++ )); do
       echo "File ${CONF_VAL} does not exist"
       exit 1
     fi
-    OPTS="${OPTS} --conf_file ${CONF_VAL}"
+    OPTS+=("--conf_file" "${CONF_VAL}")
     SKIP_NEXT=1
   elif [ "${!i}" == "--genConfTempl" ]; then
     i2="$((${i} + 1))"
@@ -36,7 +36,7 @@ for (( i = 1; i <= "$#"; i++ )); do
       exit 1
     fi
     CONF_VAL="${CONF_FILE_PRE}${!i2}"
-    OPTS="${OPTS} --genConfTempl ${CONF_VAL}"
+    OPTS+=("--genConfTempl" "${CONF_VAL}")
     SKIP_NEXT=1
   elif [ "${!i}" == "--load_folder" ]; then
     i2="$((${i} + 1))"
@@ -49,19 +49,15 @@ for (( i = 1; i <= "$#"; i++ )); do
       echo "Folder ${CONF_VAL} does not exist"
       exit 1
     fi
-    OPTS="${OPTS} --load_folder ${CONF_VAL}"
+    OPTS+=("--load_folder" "${CONF_VAL}")
     SKIP_NEXT=1
   else
-    OPTS="${OPTS} ${!i}"
+    OPTS+=("${!i}")
   fi
 done
 
 if [ "${IMG_PREF_FOUND}" -eq 0 ]; then
-  OPTS="${OPTS} ${IMG_PREF}"
+  OPTS+=("${IMG_PREF[@]}")
 fi
 
-if [ "${STORE_PATH_FOUND}" -eq 0 ]; then
-  OPTS="${OPTS} --store_path ${DATA_FOLDER}"
-fi
-
-./virtualSequenceLib-CMD-interface "${OPTS}"
+./virtualSequenceLib-CMD-interface ${OPTS[@]}
