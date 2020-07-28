@@ -15,6 +15,7 @@
     - [Oxford](#oxford)
     - [KITTI](#kitti)
     - [MegaDepth](#megadepth)
+- [Generated Data Structure](#data-structure)
 - [Reading Generated Sequence, GTM, and Annotation Data](#read-data)
 - [Interfacing the Library](#interface-lib)
     - [Calculation of Stereo Poses](#interface-stereo)
@@ -302,6 +303,43 @@ mkdir SfM
 ```
 After extracting downloaded MegaDepth_v1 data, move all numbered folders (i.e. `0000` to `5018`) into folder `your_image_directory/MegaDepth/MegaDepth_v1`.
 After extracting downloaded SfM data, move all numbered folders (i.e. `0000` to `5018`) into folder `your_image_directory/MegaDepth/SfM`.
+
+## Generated Data Structure <a name="data-structure"></a>
+
+Depending on your chosen file format (`*.xml`, `*.yaml`, `*.xml.gz`, `*.yaml.gz`) data is stored in the default `data` folder (only if Docker is used) or in your specified directory.
+After generating one or more sequences, this main data folder holds a file `sequInfos.[yaml/xml]` listing all generated sequences and corresponding short overviews of used parameters (e.g. corresponding folder name, number of different stereo configuration, statistics on pose parameters, inlier ratios, ...).
+A description of every parameter can be found in the file.
+Different generated sequences are separated by tags `parSetNr*` with index number `*` starting at 0.
+This file is never compressed (`*.gz`).
+
+### 3D Data Folders <a name="data-folder-3d"></a>
+
+Each folder (hash value based on used parameters) within the main data folder holds 3D data of a full sequence and one or more corresponding feature match data folders.
+These 3D data folders hold a file `sequPars.[extension]` which includes all parameters used to generate 3D data in addition to some 3D data like absolute camera poses.
+A description of every parameter can be found in the file.
+
+Files `sequSingleFrameData_*.[extension]` hold 3D data for every generated stereo frame with consecutive stereo frame number `*` starting at 0.
+A description of every parameter can be found in the file.
+
+File `pclCloud_staticWorld3DPts.pcd` holds static 3D point cloud data stored in PCL `*.pcd` format.
+3D point data corresponding to single generated stereo frames is also included in `sequSingleFrameData_*.[extension]`.
+
+Files `pclCloud_movObj3DPts_*.pcd` hold dynamic 3D point cloud data for every dynamic object and stereo frame.
+This information is also included in `sequSingleFrameData_*.[extension]`.
+An index for mapping `pclCloud_movObj3DPts_*.pcd` to a stereo frame is available in `sequSingleFrameData_*.[extension]`.
+
+One 3D data folder can hold multiple feature match data folders (hash value based on used matching parameters) that share the same 3D data.
+An overview on different feature match data folders including folder names and short parameter overviews (like feature type, repeatability error, intensity noise, ...) separated by tags `parSetNr*` can be found in `matchInfos.[yaml/xml]`.
+A description of every parameter can be found in the file.
+This file is never compressed (`*.gz`).
+
+### Feature Match Data Folders <a name="data-folder-matches"></a>
+
+Each folder (hash value based on used matching parameters) within 3D data folders holds correspondence (i.e. feature matches) data for every stereo frame separately stored in files `matchSingleFrameData_*.[extension]`.
+`*` corresponds to consecutive stereo frame numbers equal to `sequSingleFrameData_*.[extension]`.
+Stored data includes e.g. matches, keypoints, descriptors, inlier mask, dynamic object mask, homographies used to warp individual patches centered at keypoint locations, keypoint repeatability errors, ...
+
+File `kpErrImgInfo.[extension]` holds statistics about keypoint repeatability errors, filenames and folders of used images, and a statistic about the execution time.
 
 ## Reading Generated Sequence, GTM, and Annotation Data <a name="read-data"></a>
 
