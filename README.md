@@ -339,7 +339,7 @@ Each folder (hash value based on used matching parameters) within 3D data folder
 `*` corresponds to consecutive stereo frame numbers equal to `sequSingleFrameData_*.[extension]`.
 Stored data includes e.g. matches, keypoints, descriptors, inlier mask, dynamic object mask, homographies used to warp individual patches centered at keypoint locations, keypoint repeatability errors, ...
 
-File `kpErrImgInfo.[extension]` holds statistics about keypoint repeatability errors, filenames and folders of used images, and a statistic about the execution time.
+File `kpErrImgInfo.[extension]` holds statistics about keypoint repeatability errors, filenames and folders of used images, and a statistic on the execution time.
 
 ## Reading Generated Sequence, GTM, and Annotation Data <a name="read-data"></a>
 
