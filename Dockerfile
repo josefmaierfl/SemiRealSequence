@@ -68,13 +68,17 @@ RUN python -c "from ruamel.yaml import CLoader as Loader; print('Loaded CLoader!
 
 USER root
 SHELL ["/bin/bash", "--login", "-c"]
+ARG BUILD_ANNOTATION=0
 COPY generateVirtualSequence /ci/tmp/generateVirtualSequence/
 COPY build_generateVirtualSequence.sh /ci/tmp/
-RUN cd /ci/tmp && ./build_generateVirtualSequence.sh
+RUN cd /ci/tmp && ./build_generateVirtualSequence.sh $BUILD_ANNOTATION
 
 WORKDIR /app
 RUN cp -r /ci/tmp/tmp/. /app/
-COPY start_testing.sh /app/
+COPY start_gen_GTM.sh /app/
+COPY start_loading.sh /app/
+COPY start_SemiRealSequence.sh /app/
+COPY start_test.sh /app/
 #RUN rm -r /ci
 
 RUN chown -R conan /app
