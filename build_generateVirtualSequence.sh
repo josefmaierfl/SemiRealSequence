@@ -22,7 +22,7 @@ make -j "$(nproc)"
 if [ $? -ne 0 ]; then
     exit 1
 fi
-make install
+#make install
 
 copy_dir0=${root_dir}/tmp/generateVirtualSequence
 copy_dir=${copy_dir0}/build

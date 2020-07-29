@@ -1,20 +1,7 @@
 
 # 
 # External dependencies
-# 
-
-# find_package(THIRDPARTY REQUIRED)
-
-
-# 
-# Executable name and options
-# 
-
-# Target name
-set(target loadData)
-
-# Exit here if required dependencies are not met
-message(STATUS "Example ${target}")
+#
 
 find_package(Boost 1.71.0 REQUIRED COMPONENTS
         thread
@@ -38,6 +25,16 @@ if(PCL_FOUND)
     message(STATUS "Found PCL lib!")
     message(STATUS "PCL Version: ${PCL_VERSION}")
 endif()
+
+#
+# Executable name and options
+#
+
+# Target name
+set(target loadData)
+
+# Exit here if required dependencies are not met
+message(STATUS "Example ${target}")
 
 # 
 # Sources
