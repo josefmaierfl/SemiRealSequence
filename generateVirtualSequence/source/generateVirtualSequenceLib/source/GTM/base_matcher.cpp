@@ -57,6 +57,7 @@
 #if defined(USE_MANUAL_ANNOTATION)
 #include "QMessageBox"
 #include <QCoreApplication>
+#include <QtWidgets/QApplication>
 #endif
 #else
 #include "winuser.h"
@@ -2818,6 +2819,12 @@ bool baseMatcher::testGTmatches(int & samples, std::vector<std::pair<cv::Point2f
 		maxHorImgSize = imgSize.width;
 		maxVerImgSize = imgSize.height;
     }
+#if __linux__
+    int argc = 1;
+    char argv[1] = {'s'};
+    char *argv1 = argv;
+    QApplication app(argc, &argv1);
+#endif
 #endif
 
 	//SIFT features & descriptors used for generating local homographies
