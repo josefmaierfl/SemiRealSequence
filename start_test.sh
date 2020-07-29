@@ -17,6 +17,8 @@ if [ "${IMG_PREF_FOUND}" -eq 0 ]; then
   OPTS+=("${IMG_PREF[@]}")
 fi
 
-OPTS+=("$@")
+if [ $# -ne 0 ]; then
+  OPTS+=("$@")
+fi
 
-./generateVirtualSequenceLib-test "${OPTS}"
+./generateVirtualSequenceLib-test ${OPTS[@]}
