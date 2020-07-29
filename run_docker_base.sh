@@ -113,7 +113,7 @@ fi
 # -c $(echo "${@:2}")
 xhost +local:root
 #docker run -v ${IMG_PATH_SYS}:${IMG_PATH_DOCKER} -v ${DATA_PATH_SYS}:${DATA_PATH_DOCKER} -v ${CONFIG_PATH_SYS}:${CONFIG_PATH_DOCKER} -it -v /tmp/.X11-unix/:/tmp/.X11-unix:ro -e DISPLAY=unix$DISPLAY semi_real_sequence:1.0 /bin/bash
-docker run -v ${IMG_PATH_SYS}:${IMG_PATH_DOCKER} -v ${DATA_PATH_SYS}:${DATA_PATH_DOCKER} -v ${CONFIG_PATH_SYS}:${CONFIG_PATH_DOCKER} -it -v /tmp/.X11-unix/:/tmp/.X11-unix:rw --privileged -e DISPLAY=unix$DISPLAY semi_real_sequence:1.0 ${EXE_USE} "$@"
+docker run -v ${IMG_PATH_SYS}:${IMG_PATH_DOCKER} -v ${DATA_PATH_SYS}:${DATA_PATH_DOCKER} -v ${CONFIG_PATH_SYS}:${CONFIG_PATH_DOCKER} -it -v /tmp/.X11-unix/:/tmp/.X11-unix:ro -e DISPLAY=unix$DISPLAY semi_real_sequence:1.0 ${EXE_USE} "$@"
 xhost -local:root
 
 # Shut down if asked for
