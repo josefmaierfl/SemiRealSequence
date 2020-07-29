@@ -34,7 +34,7 @@ get_git_head_revision(GIT_REFSPEC GIT_SHA1)
 string(SUBSTRING "${GIT_SHA1}" 0 12 GIT_REV)
 
 # Meta information about the project
-set(META_PROJECT_NAME        "SemiRealSequence")
+set(META_PROJECT_NAME        "semi_real_sequence")
 set(META_PROJECT_DESCRIPTION "Framework for generating virtual randomized stereo sequences with correspondences of real-world images")
 set(META_AUTHOR_ORGANIZATION "Austrian Institute of Technology")
 set(META_AUTHOR_DOMAIN       "https://github.com/josefmaierfl/semirealsequence")

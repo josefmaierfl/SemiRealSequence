@@ -204,7 +204,9 @@ target_include_directories(${target}
     INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
-    $<INSTALL_INTERFACE:include>
+    #$<INSTALL_INTERFACE:include>
+	$<INSTALL_INTERFACE:${INSTALL_INCLUDE}> # for client in install mode
+	$<INSTALL_INTERFACE:${INSTALL_LIB}>
 )
 
 
@@ -243,6 +245,8 @@ if(USE_MANUAL_ANNOTATION)
 		target_link_libraries(${target}
 			PUBLIC
 			Qt5::Widgets
+
+			INTERFACE
 		)
 	endif()
 endif()
@@ -307,7 +311,8 @@ install(TARGETS ${target}
 
 # Header files
 install(DIRECTORY
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/${target} DESTINATION ${INSTALL_INCLUDE}
+    #${CMAKE_CURRENT_SOURCE_DIR}/include/${target} DESTINATION ${INSTALL_INCLUDE}
+	${CMAKE_CURRENT_SOURCE_DIR}/include DESTINATION ${INSTALL_INCLUDE}
     COMPONENT dev
 )
 

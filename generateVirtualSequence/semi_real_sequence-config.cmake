@@ -7,8 +7,7 @@
 
 # List of modules
 set(MODULE_NAMES
-    baselib
-    fiblib
+    generateVirtualSequenceLib
 )
 
 
@@ -27,6 +26,7 @@ macro(find_modules PREFIX)
     endforeach(module_name)
 endmacro()
 
+message(STATUS "Searching")
 
 # Try install location
 set(MODULE_FOUND FALSE)

@@ -4,7 +4,7 @@
 #
 
 # Generate version-header
-string(TOUPPER ${META_PROJECT_NAME} META_PRO  JECT_NAME_UPPER)
+string(TOUPPER ${META_PROJECT_NAME} META_PROJECT_NAME_UPPER)
 configure_file(version.h.in ${CMAKE_CURRENT_BINARY_DIR}/include/${META_PROJECT_NAME}/${META_PROJECT_NAME}-version.h)
 
 
@@ -46,3 +46,4 @@ add_subdirectory(tests)
 
 # Deploy generated headers
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/${META_PROJECT_NAME} DESTINATION include COMPONENT dev)
+#install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include DESTINATION include COMPONENT dev)
