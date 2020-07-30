@@ -205,8 +205,8 @@ target_include_directories(${target}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
     #$<INSTALL_INTERFACE:include>
-	$<INSTALL_INTERFACE:${INSTALL_INCLUDE}> # for client in install mode
-	$<INSTALL_INTERFACE:${INSTALL_LIB}>
+	$<INSTALL_INTERFACE:${INSTALL_INCLUDE}/${target}/include> # for client in install mode
+	$<INSTALL_INTERFACE:${INSTALL_LIB}/${target}>
 )
 
 
@@ -303,22 +303,22 @@ target_link_libraries(${target}
 
 # Library
 install(TARGETS ${target}
-    EXPORT  "${target}-export"            COMPONENT dev
-    RUNTIME DESTINATION ${INSTALL_BIN}    COMPONENT runtime
-    LIBRARY DESTINATION ${INSTALL_SHARED} COMPONENT runtime
-    ARCHIVE DESTINATION ${INSTALL_LIB}    COMPONENT dev
+    EXPORT  "${target}-export"            			COMPONENT dev
+    RUNTIME DESTINATION ${INSTALL_BIN}/${target}    COMPONENT runtime
+    LIBRARY DESTINATION ${INSTALL_SHARED}/${target} COMPONENT runtime
+    ARCHIVE DESTINATION ${INSTALL_LIB}/${target}    COMPONENT dev
 )
 
 # Header files
 install(DIRECTORY
     #${CMAKE_CURRENT_SOURCE_DIR}/include/${target} DESTINATION ${INSTALL_INCLUDE}
-	${CMAKE_CURRENT_SOURCE_DIR}/include DESTINATION ${INSTALL_INCLUDE}
+	${CMAKE_CURRENT_SOURCE_DIR}/include DESTINATION ${INSTALL_INCLUDE}/${target}
     COMPONENT dev
 )
 
 # Generated header files
 install(DIRECTORY
-    ${CMAKE_CURRENT_BINARY_DIR}/include/${target} DESTINATION ${INSTALL_INCLUDE}
+    ${CMAKE_CURRENT_BINARY_DIR}/include/${target} DESTINATION ${INSTALL_INCLUDE}/${target}/include
     COMPONENT dev
 )
 

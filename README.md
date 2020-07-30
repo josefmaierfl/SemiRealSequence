@@ -214,12 +214,50 @@ To use SemiRealSequence within your own application, it can be built and install
 cd generateVirtualSequence
 mkdir build
 cd build
-cmake ../ -DCMAKE_BUILD_TYPE=Release
+cmake ../ -DCMAKE_BUILD_TYPE=Release -DOPTION_BUILD_TESTS=OFF -DOPTION_BUILD_EXAMPLES=OFF -DENABLE_CMD_INTERFACE=OFF -DENABLE_GTM_INTERFACE=OFF -DBUILD_SHARED_LIBS=OFF
 make -j "$(nproc)"
 sudo make install
 ```
 
-To integrate it within CMake include `find_package(semi_real_sequence)` and `target_link_libraries(${target} semi_real_sequence::generateVirtualSequenceLib)` in your `CMakeLists.txt`.
+To integrate it within CMake include the following into your `CMakeLists.txt`:
+
+```
+find_package(semi_real_sequence REQUIRED)
+
+Optional: find_package(Eigen REQUIRED)
+Optional: find_package(Boost 1.71.0 REQUIRED COMPONENTS thread filesystem regex system)
+Optional: find_package(Ceres REQUIRED)
+
+find_package(OpenCV 4.2.0 REQUIRED)
+find_package(VTK 7.2 QUIET NO_MODULE)
+if(NOT VTK_FOUND)
+    find_package(VTK 8.2.0 REQUIRED NO_MODULE)
+endif()
+message(STATUS "VTK Version: ${VTK_VERSION}")
+find_package(PCL 1.11.0 REQUIRED)
+
+target_link_libraries(your_project_name
+  ${OpenCV_LIBS}
+  ${VTK_LIBRARIES}
+  ${PCL_LIBRARY_DIRS}
+  ${PCL_COMMON_LIBRARIES}
+  ${PCL_GEOMETRY_LIBRARIES}
+  ${PCL_VISUALIZATION_LIBRARIES}
+  #${CERES_LIBRARIES}
+  #${Boost_LIBRARIES}
+  semi_real_sequence::generateVirtualSequenceLib)
+
+target_include_directories(your_project_name
+  PRIVATE
+  ${DEFAULT_INCLUDE_DIRECTORIES}
+  ${OpenCV_INCLUDE_DIRS}
+  ${VTK_USE_FILE}
+  ${PCL_INCLUDE_DIRS}
+  #${CERES_INCLUDE_DIRS}
+  #${Boost_INCLUDE_DIRS}
+  #${Eigen_INCLUDE_DIR}
+  semi_real_sequence::generateVirtualSequenceLib)
+```
 
 ## Quick Start: Configuration File <a name="config-file"></a>
 
