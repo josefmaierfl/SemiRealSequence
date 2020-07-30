@@ -1,6 +1,6 @@
 # SemiRealSequence: Unlimited Semi-Real-World GT Data Generation Framework for Feature-Based Applications
 
-For details on how to install and use the library see the [readme in the main directory](../)
+For details on how to install and use the library see the [readme in the main directory](../README.md)
 
 <!---
 - [Introduction](#introduction)
