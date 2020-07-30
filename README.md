@@ -209,7 +209,12 @@ For annotating data use executable `virtualSequenceLib-GTM-interface` within dir
 
 ### Library <a name="library"></a>
 
-To use SemiRealSequence within your own application, it can be built and installed performing the following steps:
+To use SemiRealSequence within your own application, it can be built and installed by calling
+
+`./build_SemiRealSequence.sh`
+
+or by performing the following steps:
+
 ```bash
 cd generateVirtualSequence
 mkdir build
