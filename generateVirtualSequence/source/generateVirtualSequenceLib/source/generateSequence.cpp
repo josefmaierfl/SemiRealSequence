@@ -551,12 +551,19 @@ void genStereoSequ::getInterSecFracRegions(cv::Mat &fracUseableTPperRegion_,
         intersectCont[0] = img1Poly;
         Mat wimg = Mat::zeros(imgSize, CV_8UC1);
         drawContours(wimg, intersectCont, 0, Scalar(255), FILLED);
-
+        if (mask.empty() && (verbose & SHOW_STEREO_INTERSECTION)) {
+            int nrIntSecPix = cv::countNonZero(wimg);
+            auto viewOverlap = static_cast<double>(nrIntSecPix) / static_cast<double>(imgSize.width * imgSize.height);
+            cout << "View overlap at depth " << d << ": " << viewOverlap << endl;
+        }
         combDepths &= wimg;
     }
 
     //Draw intersection area
     if(mask.empty() && (verbose & SHOW_STEREO_INTERSECTION)){
+        int nrIntSecPix = cv::countNonZero(combDepths);
+        auto viewOverlap = static_cast<double>(nrIntSecPix) / static_cast<double>(imgSize.width * imgSize.height);
+        cout << "Average view overlap: " << viewOverlap << endl;
         if(!writeIntermediateImg(combDepths, "stereo_intersection_combDepths")) {
             namedWindow("Stereo intersection", WINDOW_AUTOSIZE);
             imshow("Stereo intersection", combDepths);
@@ -674,6 +681,9 @@ bool genStereoSequ::initFracCorrImgReg() {
             combDepths[1] = depthFar[stereoIdx] + (maxFarDistMultiplier - 1.0) * depthFar[stereoIdx] * pars.corrsPerDepth.far;
             combDepths[2] = depthNear[stereoIdx] + max((1.0 - pars.corrsPerDepth.near), 0.2) * (depthMid[stereoIdx] - depthNear[stereoIdx]);
 
+            if (verbose & SHOW_STEREO_INTERSECTION) {
+                cout << "Stereo Cam " << stereoIdx << ":" << endl;
+            }
             getInterSecFracRegions(fracUseableTPperRegion_tmp,
                                    R[stereoIdx],
                                    t[stereoIdx],
