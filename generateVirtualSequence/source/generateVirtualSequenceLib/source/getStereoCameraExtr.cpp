@@ -1580,8 +1580,11 @@ cv::Mat GenStereoPars::LMfunc(cv::Mat p, bool noAlignCheck)
 		//Calculate main residuals
         //Get the desired image overlap
 		//r.at<double>(i * nr_residualsPCond + 5) = approxImgOverlap_ - ovLapZ * ovLapZm * ovLapZmP;
-        r.at<double>(i * nr_residualsPCond + 5) = iOvLapMult * (approxImgOverlap_ * approxImgOverlap_
-                - ovLapZ * ovLapZ * ovLapZm * ovLapZm * ovLapZmP * ovLapZmP);
+        const double ovLapAll = (0.55 + (0.45 * approxImgOverlap_)) * approxImgOverlap_ * approxImgOverlap_
+                - ovLapZ * ovLapZ * ovLapZm * ovLapZm * ovLapZmP * ovLapZmP;
+        r.at<double>(i * nr_residualsPCond + 5) = iOvLapMult * ovLapAll;
+//        r.at<double>(i * nr_residualsPCond + 5) = iOvLapMult * (approxImgOverlap_ * approxImgOverlap_
+//        - ovLapZ * ovLapZ * ovLapZm * ovLapZm * ovLapZmP * ovLapZmP);
 		r.at<double>(i * nr_residualsPCond + 6) = 0.35 * ovLapZ3D;//Optimize overlapping area
 	}
 

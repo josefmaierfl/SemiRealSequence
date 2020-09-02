@@ -225,9 +225,10 @@ void genStereoSequ::calcDisortedK(cv::Mat &Kd){
 
 //Function can only be called after the medium depth for the actual frame is calculated
 void genStereoSequ::getImgIntersection(std::vector<cv::Point> &img1Poly,
+                                       std::vector<cv::Point> &img2Poly,
                                        const cv::Mat &R_use,
                                        const cv::Mat &t_use,
-                                       const double depth_use,
+                                       const double &depth_use,
                                        bool visualize) {
     CV_Assert(depth_use > 0);
     //Project the corners of img1 on a plane at medium depth in 3D
@@ -354,11 +355,45 @@ void genStereoSequ::getImgIntersection(std::vector<cv::Point> &img1Poly,
     }
 
     //Backproject the found intersections to the first image
+    projectPolyIntersect(img1Poly, midZPoly, cv::Mat::eye(3, 3, CV_64FC1), cv::Mat::zeros(3, 1, CV_64FC1), K1, depth_use);
+
+    //Backproject the found intersections to the second image
+    projectPolyIntersect(img2Poly, midZPoly, R_use, t_use, K2, depth_use);
+
+    //Draw intersection area
+    if (visualize && (verbose & SHOW_STEREO_INTERSECTION)) {
+        vector<vector<Point>> intersectCont1(1), intersectCont2(1);
+
+        intersectCont1[0] = img1Poly;
+        intersectCont2[0] = img2Poly;
+        Mat wimg1 = Mat::zeros(imgSize, CV_8UC3);
+        Mat wimg2 = Mat::zeros(imgSize, CV_8UC3);
+        drawContours(wimg1, intersectCont1, 0, Scalar(0, 255, 0), FILLED);
+        drawContours(wimg2, intersectCont2, 0, Scalar(0, 255, 0), FILLED);
+        if(!writeIntermediateImg(wimg1, "stereo_intersection_img1") || !writeIntermediateImg(wimg2, "stereo_intersection_img2")) {
+            namedWindow("Stereo intersection image 1", WINDOW_AUTOSIZE);
+            namedWindow("Stereo intersection image 2", WINDOW_AUTOSIZE);
+            imshow("Stereo intersection image 1", wimg1);
+            imshow("Stereo intersection image 2", wimg2);
+
+            waitKey(0);
+            destroyWindow("Stereo intersection image 1");
+            destroyWindow("Stereo intersection image 2");
+        }
+    }
+}
+
+void genStereoSequ::projectPolyIntersect(std::vector<cv::Point> &imgPoly,
+                                         const std::vector<cv::Point2d> &midZPoly,
+                                         const cv::Mat &R_use,
+                                         const cv::Mat &t_use,
+                                         const cv::Mat &K_use,
+                                         const double &depth_use) const{
     std::vector<cv::Point> img1Poly1;
     for (auto& i : midZPoly) {
         Mat ptm = (Mat_<double>(3, 1) << i.x, i.y, 1.0);
         ptm *= depth_use;
-        ptm = K1 * ptm;
+        ptm = K_use * (R_use * ptm + t_use);
         ptm /= ptm.at<double>(2);
         img1Poly1.emplace_back(Point((int) round(ptm.at<double>(0)), (int) round(ptm.at<double>(1))));
         if (img1Poly1.back().x > (imgSize.width - 1)) {
@@ -378,26 +413,9 @@ void genStereoSequ::getImgIntersection(std::vector<cv::Point> &img1Poly,
     //Get the correct order of the intersections
     vector<int> intSecIdx;
     convexHull(img1Poly1, intSecIdx);
-    img1Poly.resize(intSecIdx.size());
+    imgPoly.resize(intSecIdx.size());
     for (size_t j = 0; j < intSecIdx.size(); ++j) {
-        img1Poly[j] = img1Poly1[intSecIdx[j]];
-    }
-
-
-    //Draw intersection area
-    if (visualize && (verbose & SHOW_STEREO_INTERSECTION)) {
-        vector<vector<Point>> intersectCont(1);
-
-        intersectCont[0] = img1Poly;
-        Mat wimg = Mat::zeros(imgSize, CV_8UC3);
-        drawContours(wimg, intersectCont, 0, Scalar(0, 255, 0), FILLED);
-        if(!writeIntermediateImg(wimg, "stereo_intersection")) {
-            namedWindow("Stereo intersection", WINDOW_AUTOSIZE);
-            imshow("Stereo intersection", wimg);
-
-            waitKey(0);
-            destroyWindow("Stereo intersection");
-        }
+        imgPoly[j] = img1Poly1[intSecIdx[j]];
     }
 }
 
@@ -483,12 +501,12 @@ bool genStereoSequ::writeIntermediateImg(const cv::Mat &img, const std::string &
 void genStereoSequ::getInterSecFracRegions(cv::Mat &fracUseableTPperRegion_,
                                            const cv::Mat &R_use,
                                            const cv::Mat &t_use,
-                                           const double depth_use,
+                                           const double &depth_use,
                                            cv::InputArray mask,
                                            cv::OutputArray imgUsableMask) {
     //Check overlap of the stereo images
-    std::vector<cv::Point> img1Poly;
-    getImgIntersection(img1Poly, R_use, t_use, depth_use, mask.empty());
+    std::vector<cv::Point> img1Poly, img2Poly;
+    getImgIntersection(img1Poly, img2Poly, R_use, t_use, depth_use, mask.empty());
 
     //Create a mask for overlapping views
     vector<vector<Point>> intersectCont(1);
@@ -542,8 +560,8 @@ void genStereoSequ::getInterSecFracRegions(cv::Mat &fracUseableTPperRegion_,
     //Check overlap of the stereo images
     Mat combDepths = Mat::ones(imgSize, CV_8UC1) * 255;
     for(auto &d: depth_use) {
-        std::vector<cv::Point> img1Poly;
-        getImgIntersection(img1Poly, R_use, t_use, d, false);
+        std::vector<cv::Point> img1Poly, img2Poly;
+        getImgIntersection(img1Poly, img2Poly, R_use, t_use, d, false);
 
         //Create a mask for overlapping views
         vector<vector<Point>> intersectCont(1);
@@ -552,8 +570,14 @@ void genStereoSequ::getInterSecFracRegions(cv::Mat &fracUseableTPperRegion_,
         Mat wimg = Mat::zeros(imgSize, CV_8UC1);
         drawContours(wimg, intersectCont, 0, Scalar(255), FILLED);
         if (mask.empty() && (verbose & SHOW_STEREO_INTERSECTION)) {
-            int nrIntSecPix = cv::countNonZero(wimg);
-            auto viewOverlap = static_cast<double>(nrIntSecPix) / static_cast<double>(imgSize.width * imgSize.height);
+            vector<vector<Point>> intersectCont2(1);
+            intersectCont2[0] = img2Poly;
+            Mat wimg2 = Mat::zeros(imgSize, CV_8UC1);
+            drawContours(wimg2, intersectCont2, 0, Scalar(255), FILLED);
+            int nrIntSecPix1 = cv::countNonZero(wimg);
+            int nrIntSecPix2 = cv::countNonZero(wimg2);
+            int imgA = imgSize.area();
+            auto viewOverlap = static_cast<double>(nrIntSecPix1 + nrIntSecPix2) / static_cast<double>(2 * imgA);
             cout << "View overlap at depth " << d << ": " << viewOverlap << endl;
         }
         combDepths &= wimg;

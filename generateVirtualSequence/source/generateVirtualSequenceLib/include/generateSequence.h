@@ -818,14 +818,21 @@ private:
     void clearNewMovObjVars();
     void adaptMinNrMovObjsAndNrMovObjs(size_t pars_nrMovObjsNew);
     void getImgIntersection(std::vector<cv::Point> &img1Poly,
+                            std::vector<cv::Point> &img2Poly,
                             const cv::Mat &R_use,
                             const cv::Mat &t_use,
-                            const double depth_use,
+                            const double &depth_use,
                             bool visualize = true);
+    void projectPolyIntersect(std::vector<cv::Point> &imgPoly,
+                              const std::vector<cv::Point2d> &midZPoly,
+                              const cv::Mat &R_use,
+                              const cv::Mat &t_use,
+                              const cv::Mat &K_use,
+                              const double &depth_use) const;
     void getInterSecFracRegions(cv::Mat &fracUseableTPperRegion_,
                                 const cv::Mat &R_use,
                                 const cv::Mat &t_use,
-                                const double depth_use,
+                                const double &depth_use,
                                 cv::InputArray mask = cv::noArray(),
                                 cv::OutputArray imgUsableMask = cv::noArray());
 	void getInterSecFracRegions(cv::Mat &fracUseableTPperRegion_,
